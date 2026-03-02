@@ -27,6 +27,7 @@ This is a planning/scratch repo, not the live vim config itself. We use this spa
 - `principles.kb/` — Guiding constraints (the constitution)
 - `needs.kb/` — Functional needs + evaluated options per need
 - `stack.kb/` — Symlinks to chosen options (the adopted config)
+- `decision-records.kb/` — ADRs (symlink to docs/dev/adr/)
 
 ## Conventions
 
