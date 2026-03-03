@@ -24,13 +24,13 @@ This is a planning/scratch repo, not the live vim config itself. We use this spa
 
 ## Knowledge Base
 
-- `principles.kb/` — Guiding constraints (the constitution)
+- `decisions.kb/` — Layered decision knowledge (facts → values → principles → choices)
 - `needs.kb/` — Functional needs + evaluated options per need
+- `questions.kb/` — Open questions awaiting resolution
 - `stack.kb/` — Symlinks to chosen options (the adopted config)
-- `decision-records.kb/` — ADRs (symlink to docs/dev/adr/)
 
 ## Conventions
 
-- Decisions go in `docs/dev/adr/`
 - Session history goes in `docs/dev/devlog/`
+- ADRs go in `docs/dev/adr/` (process/methodology decisions)
 - Active tasks in `.claude/todo.md`
