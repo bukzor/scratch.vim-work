@@ -1,0 +1,152 @@
+---
+anthropic-skill-ownership: llm-subtask
+---
+
+# Unify discourse graph and design tower into single structure
+
+**Priority:** High
+**Complexity:** High
+**Context:** `docs/dev/devlog/2026-03-03-000-discourse-graph-decomposition-and-unification-insight.md`
+
+## Motivation
+
+This isn't just infrastructure for the vim config. The unified structure
+is a reusable tool for a recurring problem: extracting actionable knowledge
+from LLM conversations. There are ~20 past discussions across chatgpt.com
+and claude.ai that would become actionable given similar treatment. The vim
+config conversation is the proving ground; the skill is the real deliverable.
+
+## Problem Statement
+
+Two knowledge structures serve overlapping purposes:
+- `llm-discourse-graph` skill: questions, claims, deductions, sources, definitions
+- `how-to-document-design-knowledge` (in llm-collab): mission → goals → requirements → design → components → deliverables
+
+Both use `llm.kb` pattern, both organize knowledge hierarchically, both use
+YAML frontmatter cross-references. But they don't interoperate and work gets
+duplicated (e.g. `decisions.kb/` and the discourse graph contain the same
+conclusions from the same source).
+
+## Key Insight from Session
+
+The five-whys/five-hows tower and the discourse graph express the same
+relationship: "why does this exist?" (walk up) / "how is this realized?"
+(walk down). The design tower uses numbered layers (010, 020...) to make
+abstraction visible. The discourse graph uses `$ITEM.kb/` nesting.
+
+Nesting depth CAN replace numbered layers: outermost = highest abstraction,
+innermost = most concrete. We demonstrated this with
+`config-debug-hell.kb/test-maintenance` (parent = why, child = how).
+
+## Proposed Unified Structure
+
+### Four collections, not five
+
+Drop `deductions.kb/`. Add `why[]` to claims. Reasoning lives in body text.
+
+- `questions.kb/` — open inquiries
+- `claims.kb/` — assertions with `status`, `likelihood`, `why[]`
+- `sources.kb/` — provenance
+- `definitions.kb/` — terminology
+
+### Nesting replaces numbered layers
+
+Top-level collections are entry points. Sub-scopes use `$ITEM.kb/` only —
+no repeated collection directories inside.
+
+```
+questions.kb/
+  config-debug-hell.md
+  config-debug-hell.kb/
+    test-maintenance.md        ← type from frontmatter, not directory
+    two-tiers-only.md
+    capability-over-content.md
+```
+
+NOT:
+```
+questions.kb/
+  config-debug-hell.kb/
+    questions.kb/              ← redundant
+      test-maintenance.md
+    claims.kb/                 ← redundant
+      two-tiers-only.md
+```
+
+Depth = abstraction level. Walk down for "how", walk up for "why".
+
+### `why[]` replaces deductions for simple cases
+
+A claim with `why: [claims.kb/a.md, claims.kb/b.md]` says "I hold because
+of these." Body text explains the inference. Same as design tower's `why[]`.
+
+Deductions were useful when the inference itself was contestable. In
+practice during the session, every deduction was straightforward. The body
+text of the conclusion claim can carry the reasoning.
+
+### Epistemic metadata everywhere
+
+`status: asserted|contested|retracted` and `likelihood: 0-1` apply to any
+node. This is what the discourse graph adds beyond the design tower.
+
+### Node type from frontmatter, not directory
+
+Inside a sub-scope, how do you distinguish a question from a claim?
+By its frontmatter schema:
+- Questions have `candidate-resolutions` or `resolved`
+- Claims have `status`, `why[]`
+- Sources have `kind`, `title`
+- Definitions have `term`
+
+Top-level collection directories still serve as typed entry points.
+
+## Implementation Steps
+
+- [ ] Design the unified schema set (revise all four schemas)
+    - [ ] Add `why[]` to claims schema
+    - [ ] Decide fate of `depends` (keep alongside `why[]`? merge?)
+    - [ ] Ensure frontmatter alone distinguishes node types
+- [ ] Update SKILL.md for the unified structure
+    - [ ] Document nesting-as-hierarchy convention
+    - [ ] Document sub-scope flattening (no repeated collection dirs)
+    - [ ] Remove deductions guidance, add `why[]` guidance
+    - [ ] Update decomposition workflow
+- [ ] Migrate the concrete instance (chatgpt-vim-config-planning.kb)
+    - [ ] Flatten inner collection directories
+    - [ ] Convert deductions to `why[]` on conclusion claims
+    - [ ] Verify all references resolve
+- [ ] Reconcile with existing decisions.kb/
+    - [ ] Determine relationship: does decisions.kb become this format?
+    - [ ] Or does it remain separate, referencing the discourse graph?
+- [ ] Update how-to-document-design-knowledge.md in llm-collab
+    - [ ] Align with unified conventions or document the difference
+
+## Open Questions
+
+- Should `depends` and `why[]` coexist? `depends` = "needs context",
+  `why[]` = "exists because of". They're different semantics. But two
+  upward-linking fields adds complexity.
+- How do top-level collections interact with sub-scope flattening?
+  If `questions.kb/mission.kb/goal-a.md` is a claim (by frontmatter),
+  it lives under `questions.kb/` in the filesystem. Is that confusing?
+- Should the design tower's fixed layers (mission/goals/requirements/etc.)
+  survive as a naming convention even without numbered directories?
+- What happens to `kind: contradiction` deductions? A claim can say
+  `status: contested` but that doesn't capture "A contradicts B" structurally.
+
+## What Worked in the Session (preserve these)
+
+- `$ITEM.kb/` nesting for why/how hierarchy
+- Upward path resolution (inner scopes reference outer without explicit paths)
+- "Move nodes down, don't reach in" as the scoping heuristic
+- Interleaved claim+deduction creation (becomes: interleaved claim+why wiring)
+- Source node first, questions second, claims third
+- Epistemic metadata catching confidence levels from source material
+
+## What Didn't Work (fix these)
+
+- Flat claims.kb/ with 19 claims — no visible hierarchy
+- Deductions as separate nodes — added complexity without much value
+- `candidate-resolutions` pointing to deductions (schema said claims)
+- Repeated `questions.kb/` inside sub-scopes
+- Missing `likelihood` values despite source having confidence scores
