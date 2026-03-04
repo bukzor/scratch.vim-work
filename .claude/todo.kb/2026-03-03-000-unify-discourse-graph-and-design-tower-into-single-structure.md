@@ -113,6 +113,10 @@ per-party override via merge-patch.
     - [x] Per-party validity with $all and RFC 7396 merge-patch semantics
     - [x] Source attribution as claim metadata, not a collection type
     - [x] Parentage-as-why/how replaces numbered layers and deductions
+    - [x] Lane-mixing resolved: five use cases are restrictions of general question→answer pattern
+    - [x] Parentage generalized from why/how to question/answer (2026-03-04)
+    - [x] Contradiction resolved via competing siblings + per-party validity
+    - [x] Truth defined as assessor's credence, methodology-agnostic
 - [ ] Write JSON Schema for the unified claim format
     - [ ] validity-axes and validity $defs (drafted in spec)
     - [ ] Full claim schema (why[], sources, validity, resolved, etc.)
@@ -127,7 +131,7 @@ per-party override via merge-patch.
 ## Open Questions
 
 - Should `why[]` be conjunctive (default) or allow disjunctive support?
-- How to express contradiction without negation claims? (positive-only, watch item)
+- ~~How to express contradiction without negation claims?~~ **Resolved 2026-03-04:** competing siblings + per-party validity
 - How to contest reasoning specifically vs the conclusion? (meta-claims, watch item)
 - Should design tower layer names survive as a naming convention?
 - Inline/short vs file-based/long claim format — want a lightweight tier?
