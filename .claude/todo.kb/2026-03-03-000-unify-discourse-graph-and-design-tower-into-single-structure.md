@@ -102,37 +102,36 @@ Top-level collection directories still serve as typed entry points.
 
 ## Implementation Steps
 
-- [ ] Design the unified schema set (revise all four schemas)
-    - [ ] Add `why[]` to claims schema
-    - [ ] Decide fate of `depends` (keep alongside `why[]`? merge?)
-    - [ ] Ensure frontmatter alone distinguishes node types
+Design spec drafted at `llm-discourse-graph/docs/dev/design/unified-claim-scheme.md`
+with component discussions in `unified-claim-scheme/`. The redesign went
+further than originally planned — one node type, three validity axes,
+per-party override via merge-patch.
+
+- [x] Design the unified schema set
+    - [x] One node type (claim) replaces five collections
+    - [x] Validity axes (truth, certainty, utility) replace status/likelihood
+    - [x] Per-party validity with $all and RFC 7396 merge-patch semantics
+    - [x] Source attribution as claim metadata, not a collection type
+    - [x] Parentage-as-why/how replaces numbered layers and deductions
+- [ ] Write JSON Schema for the unified claim format
+    - [ ] validity-axes and validity $defs (drafted in spec)
+    - [ ] Full claim schema (why[], sources, validity, resolved, etc.)
 - [ ] Update SKILL.md for the unified structure
-    - [ ] Document nesting-as-hierarchy convention
-    - [ ] Document sub-scope flattening (no repeated collection dirs)
-    - [ ] Remove deductions guidance, add `why[]` guidance
-    - [ ] Update decomposition workflow
-- [ ] Migrate the concrete instance (chatgpt-vim-config-planning.kb)
-    - [ ] Flatten inner collection directories
-    - [ ] Convert deductions to `why[]` on conclusion claims
-    - [ ] Verify all references resolve
-- [ ] Reconcile with existing decisions.kb/
-    - [ ] Determine relationship: does decisions.kb become this format?
-    - [ ] Or does it remain separate, referencing the discourse graph?
+- [ ] Apply to user preferences (first test case)
+    - [ ] Analyze three preference docs using unified scheme
+    - [ ] Source files staged at `~/.claude/user-preferences.kb/`
+- [ ] Migrate chatgpt-vim-config-planning.kb to unified format
+- [ ] Reconcile with decisions.kb/ in scratch.vim-work
 - [ ] Update how-to-document-design-knowledge.md in llm-collab
-    - [ ] Align with unified conventions or document the difference
 
 ## Open Questions
 
-- Should `depends` and `why[]` coexist? `depends` = "needs context",
-  `why[]` = "exists because of". They're different semantics. But two
-  upward-linking fields adds complexity.
-- How do top-level collections interact with sub-scope flattening?
-  If `questions.kb/mission.kb/goal-a.md` is a claim (by frontmatter),
-  it lives under `questions.kb/` in the filesystem. Is that confusing?
-- Should the design tower's fixed layers (mission/goals/requirements/etc.)
-  survive as a naming convention even without numbered directories?
-- What happens to `kind: contradiction` deductions? A claim can say
-  `status: contested` but that doesn't capture "A contradicts B" structurally.
+- Should `why[]` be conjunctive (default) or allow disjunctive support?
+- How to express contradiction without negation claims? (positive-only, watch item)
+- How to contest reasoning specifically vs the conclusion? (meta-claims, watch item)
+- Should design tower layer names survive as a naming convention?
+- Inline/short vs file-based/long claim format — want a lightweight tier?
+- Fate of `depends` alongside `why[]` — still unresolved
 
 ## What Worked in the Session (preserve these)
 
