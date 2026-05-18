@@ -26,6 +26,16 @@ Remaining implementation:
 6. Reconcile decisions.kb/ with unified discourse graph
 7. Resume vim config work — the knowledge base should now be usable
 
+Steps:
+
+- [ ] Lane C: write JSON Schema for unified claim format (validity-axes $defs drafted in spec)
+- [ ] Lane C: update `llm-discourse-graph/SKILL.md` for unified structure
+- [ ] Lane C: update `how-to-document-design-knowledge.md` in llm-collab
+- [ ] Lane B: migrate `chatgpt-vim-config-planning.kb` to unified format (first real test)
+- [ ] Lane B: apply to user preferences staged at `~/.claude/user-preferences.kb/`
+- [ ] Lane A: reconcile `decisions.kb/` with unified discourse graph
+- [ ] Lane A: resume vim config work
+
 ## Early Decisions (discuss with user)
 
 - **Push "directories=questions" down to llm.kb?** The structural
