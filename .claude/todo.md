@@ -1,5 +1,5 @@
 ---
-anthropic-skill-ownership: llm-subtask
+managed-by: Skill(llm-subtask)
 ---
 
 - [~] .claude/todo.kb/2026-03-03-000-unify-discourse-graph-and-design-tower-into-single-structure.md
