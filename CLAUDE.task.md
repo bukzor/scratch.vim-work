@@ -1,3 +1,36 @@
+---
+managed-by: Skill(llm-subtask)
+cost-benefit-sweh:
+  timebox:
+    "@value": 10.0
+    rationale: |
+      3-lane chain: Lane C (skill work, ~4h JSON Schema + SKILL.md +
+      how-to-doc), Lane B (proving ground, ~3h migrate 2 kbs to
+      unified format), Lane A (actual goal, ~3h reconcile decisions.kb
+      + resume vim config). Lane C blocks B blocks A — total ~10 SWEh
+      before vim work resumes.
+    confidence: tentative
+  benefit-2w:
+    "@value": 0.5
+    rationale: |
+      Realistic 2w landing: Lane C step 1 (JSON Schema for unified
+      claim format) + maybe step 2 (SKILL.md update). Doesn't reach
+      vim work in the window. Value: unblocks the chain, no direct
+      vim-friction reduction yet.
+    confidence: tentative
+  cost-of-delay-2w:
+    "@value": 0.5
+    rationale: |
+      Two cost components per 2w:
+      - Daily vim-friction continues (~$50/2w in lost productivity
+        for an actively-used editor = 0.5 SWEh).
+      - Design context decay on the unified claim scheme (resolved
+        2026-03-04; each pause makes re-loading harder).
+      Chain dependency means cost-of-delay compounds: every 2w of
+      Lane-C delay pushes Lane A further out.
+    confidence: tentative
+---
+
 subtask load
 
 Close all lanes. The unified claim scheme design is resolved — now
