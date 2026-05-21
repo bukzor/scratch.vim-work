@@ -1,5 +1,29 @@
 ---
 managed-by: Skill(llm-subtask)
+cost-benefit-sweh:
+  timebox:
+    "@value": 8.0
+    rationale: |
+      Big design + migration: write JSON Schema, update SKILL.md,
+      apply to user prefs, migrate existing .kb, reconcile decisions.kb,
+      update how-to docs. File self-classifies as Complexity: High.
+      Design phase mostly done; implementation phase 6+h.
+    confidence: tentative
+  benefit-2w:
+    "@value": 1.0
+    rationale: |
+      Forward value within 2w: schema written + SKILL.md updated +
+      first .kb migrated. The reusable extraction tool ("~20 past
+      discussions become actionable") is the real prize but accrues
+      beyond 2w. ~$100 of "framework unblocked" in window.
+    confidence: tentative
+  cost-of-delay-2w:
+    "@value": 0.2
+    rationale: |
+      Exploratory / strategic infrastructure. The 20 past discussions
+      aren't bleeding; they sit static. Delay cost is mostly self-
+      compounding context decay on the design itself. Trivial.
+    confidence: tentative
 ---
 
 # Unify discourse graph and design tower into single structure
