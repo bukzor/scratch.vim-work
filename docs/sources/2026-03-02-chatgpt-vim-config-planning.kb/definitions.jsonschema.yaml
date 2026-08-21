@@ -1,1 +1,2 @@
-/home/bukzor/.claude/skills/llm-discourse-graph/schemas/definitions.jsonschema.yaml
+# yaml-language-server: $schema=https://json-schema.org/draft-07/schema
+$ref: "skill://llm-discourse-graph/jsonschema/definitions.jsonschema.yaml"
